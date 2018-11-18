@@ -1,0 +1,24 @@
+{
+  "name": "peak",
+  "version": "0.0.1",
+  "description": "前端工程化解决方案",
+  "scripts": {
+  },
+  "bin": {
+    "peak": "bin/peak.js"
+  },
+  "keywords": [
+    "web",
+    "scss",
+    "less",
+    "es2015",
+    "webpack",
+    "frontend",
+    "workflow"
+  ],
+  "files": [
+    "bin/"
+  ],
+  "author": "https://github.com/pashangshangpo",
+  "license": "MIT"
+}
