@@ -35,9 +35,10 @@ module.exports = config => {
     }
 
     if (url === config.templateName) {
-      res.end(
-        Fs.readFileSync(`${config.webpackConfigDev.output.path}/${url}`).toString()
-      )
+      let template = config.template
+      template = template.replace('<!-- inject script -->', '<script src="index.js"></script>')
+
+      res.end(template)
     }
     else {
       next()
