@@ -5,6 +5,7 @@ const Fs = require('fs')
 const Path = require('path')
 
 const Server = require('./server')
+const Build = require('./build')
 const { ResolveRoot } = require('./util')
 
 Cli
@@ -38,7 +39,7 @@ const Types = {
     Server(config)
   },
   build(config) {
-
+    Build(config)
   }
 }
 
