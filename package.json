@@ -2,8 +2,7 @@
   "name": "peak",
   "version": "0.0.1",
   "description": "前端工程化解决方案",
-  "scripts": {
-  },
+  "scripts": {},
   "bin": {
     "peak": "bin/peak.js"
   },
@@ -20,5 +19,12 @@
     "bin/"
   ],
   "author": "https://github.com/pashangshangpo",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.19.0",
+    "express": "^4.16.4",
+    "webpack": "^4.25.1",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-hot-middleware": "^2.24.3"
+  }
 }
