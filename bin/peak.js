@@ -34,9 +34,9 @@ let peakConfig = ParseConfig({
   env: Cli.env,
   injectScript: `
     <script>
-      window.Peak = {
-        env: ${Cli.env}
-      }
+      window.Peak = ${JSON.stringify({
+        env: Cli.env
+      })}
     </script>
   `
 })
