@@ -58,7 +58,7 @@ module.exports = config => {
         throw new Error(err)
       }
       else {
-        console.log(`http://${GetIp()}:${port}`)
+        console.log(`open: http://${GetIp()}:${port}`)
       }
     })
   })
