@@ -3,7 +3,7 @@ const Express = require('express')
 const WebpackDevMiddleware = require('webpack-dev-middleware')
 const WebpackHotMiddleware = require('webpack-hot-middleware')
 
-const { ResolveBin, GetRandomPort } = require('./util')
+const { ResolveBin, GetRandomPort, GetIp } = require('./util')
 
 module.exports = config => {
   const App = new Express()
@@ -51,7 +51,7 @@ module.exports = config => {
         throw new Error(err)
       }
       else {
-        console.log(`http://localhost:${port}`)
+        console.log(`http://${GetIp()}:${port}`)
       }
     })
   })
