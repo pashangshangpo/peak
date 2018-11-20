@@ -36,7 +36,14 @@ module.exports = config => {
 
       if (url === config.templateName) {
         let template = config.template
-        template = template.replace('<!-- inject script -->', '<script src="index.js"></script>')
+
+        template = template.replace(
+          '<!-- inject script -->',
+          `
+            ${config.injectScript}
+            <script src="index.js"></script>
+          `
+        )
 
         res.end(template)
       }

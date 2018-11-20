@@ -31,7 +31,14 @@ const ParseConfig = config => {
 let peakConfig = ParseConfig({
   ...require(ResolveRoot('peak.config')),
   type: Cli.type,
-  env: Cli.env
+  env: Cli.env,
+  injectScript: `
+    <script>
+      window.Peak = {
+        env: ${Cli.env}
+      }
+    </script>
+  `
 })
 
 const Types = {
