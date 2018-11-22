@@ -25,7 +25,7 @@ module.exports = {
     return Path.join(process.cwd(), ...arg)
   },
   ResolveBin(...arg) {
-    return Path.join(__dirname, ...arg)
+    return Path.join(__dirname, '../', ...arg)
   },
   GetIp() {
     let ipStr = ''
