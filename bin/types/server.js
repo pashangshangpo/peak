@@ -8,7 +8,9 @@ const { ResolveBin, GetRandomPort, GetIp } = require('../lib/util')
 module.exports = config => {
   const App = new Express()
 
-  Object.keys(config.webpackConfigDev.entry).forEach(key => {
+  let entryKeys = Object.keys(config.webpackConfigDev.entry)
+
+  entryKeys.forEach(key => {
     config.webpackConfigDev.entry[key] = [
       'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=2000&reload=true&noInfo=true',
       ResolveBin('/lib/dev-client')
@@ -41,7 +43,7 @@ module.exports = config => {
           '<!-- inject script -->',
           `
             ${config.injectScript}
-            <script src="index.js"></script>
+            <script src="/${entryKeys[0]}.js"></script>
           `
         )
 
