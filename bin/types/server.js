@@ -11,7 +11,7 @@ module.exports = config => {
   Object.keys(config.webpackConfigDev.entry).forEach(key => {
     config.webpackConfigDev.entry[key] = [
       'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=2000&reload=true&noInfo=true',
-      ResolveBin('dev-client')
+      ResolveBin('/lib/dev-client')
     ].concat(config.webpackConfigDev.entry[key])
   })
 
