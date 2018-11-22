@@ -1,12 +1,20 @@
 const Webpack = require('webpack')
 
 module.exports = config => {
-  const WebpackCompiler = Webpack(config.webpackConfigProd, (err, stats => {
+  console.log('请稍等，正在编译中...')
+
+  Webpack(config.webpackConfigProd, (err, stats) => {
     if (err) {
       throw new Error(err)
     }
     else {
-      console.log('编译成功')
+      console.log(stats.toString({
+        all: false,
+        assets: true,
+        colors: true
+      }))
+
+      console.log('编译完成')
     }
-  }))
+  })
 }
