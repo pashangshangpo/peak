@@ -36,7 +36,7 @@ let peakConfig = ParseConfig({
     <script>
       window.Peak = ${JSON.stringify({
         env: Cli.env
-      })}
+      })};
     </script>
   `
 })
