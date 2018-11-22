@@ -3,7 +3,7 @@ const Express = require('express')
 const WebpackDevMiddleware = require('webpack-dev-middleware')
 const WebpackHotMiddleware = require('webpack-hot-middleware')
 
-const { ResolveBin, GetRandomPort, GetIp } = require('./util')
+const { ResolveBin, GetRandomPort, GetIp } = require('../lib/util')
 
 module.exports = config => {
   const App = new Express()

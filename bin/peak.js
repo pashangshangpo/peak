@@ -4,9 +4,9 @@ const Cli = require('commander')
 const Fs = require('fs')
 const Path = require('path')
 
-const Server = require('./server')
-const Build = require('./build')
-const { ResolveRoot } = require('./util')
+const Server = require('./types/server')
+const Build = require('./types/build')
+const { ResolveRoot } = require('./lib/util')
 
 Cli
 	.version('0.0.1')
