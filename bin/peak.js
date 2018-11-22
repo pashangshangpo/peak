@@ -28,27 +28,32 @@ const ParseConfig = config => {
   }
 }
 
-let peakConfig = ParseConfig({
-  ...require(ResolveRoot('peak.config')),
-  type: Cli.type,
-  env: Cli.env,
-  publicPath: '/public',
-  injectScript: `
-    <script>
-      window.Peak = ${JSON.stringify({
-        env: Cli.env
-      })};
-    </script>
-  `
-})
+if (Cli.type == undefined) {
 
-const Types = {
-  server(config) {
-    Server(config)
-  },
-  build(config) {
-    Build(config)
-  }
 }
-
-Types[peakConfig.type](peakConfig)
+else {
+  let peakConfig = ParseConfig({
+    ...require(ResolveRoot('peak.config')),
+    type: Cli.type,
+    env: Cli.env,
+    publicPath: '/public',
+    injectScript: `
+      <script>
+        window.Peak = ${JSON.stringify({
+          env: Cli.env
+        })};
+      </script>
+    `
+  })
+  
+  const Types = {
+    server(config) {
+      Server(config)
+    },
+    build(config) {
+      Build(config)
+    }
+  }
+  
+  Types[peakConfig.type](peakConfig)
+}
