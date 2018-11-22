@@ -1,6 +1,7 @@
 const Fs = require('fs')
 const Path = require('path')
 const Webpack = require('webpack')
+const Minify = require('html-minifier').minify
 
 const GetAssets = stats => {
   let res = {}
@@ -65,7 +66,9 @@ module.exports = config => {
 
       Fs.writeFileSync(
         Path.join(config.webpackConfigProd.output.path, config.templateName),
-        template
+        Minify(template, {
+          removeAttributeQuotes: true
+        })
       )
       
       console.log(stats.toString({
