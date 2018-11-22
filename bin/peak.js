@@ -33,6 +33,7 @@ const ParseConfig = config => {
 if (Cli.type == undefined) {
   const AppCommand = 'peak'
   const GenerateTemplate = `generator-${AppCommand}`
+  const YeomanRuntime = Yeoman.createEnv()
 
   Shell.exec(
     `npm install -g ${GenerateTemplate}`,
