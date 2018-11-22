@@ -3,6 +3,8 @@
 const Cli = require('commander')
 const Fs = require('fs')
 const Path = require('path')
+const Shell = require('shelljs')
+const Yeoman = require('yeoman-environment')
 
 const Server = require('./types/server')
 const Build = require('./types/build')
@@ -29,7 +31,31 @@ const ParseConfig = config => {
 }
 
 if (Cli.type == undefined) {
+  const AppCommand = 'peak'
+  const GenerateTemplate = `generator-${AppCommand}`
 
+  Shell.exec(
+    `npm install -g ${GenerateTemplate}`,
+    {
+      async: true,
+      silent: true
+    },
+    () => {
+      Shell.exec(
+        'npm root -g',
+        {
+          async: true,
+          silent: true
+        },
+        (code, stdout) => {
+          const TemplatePath = Path.join(stdout.trim(), GenerateTemplate)
+
+          YeomanRuntime.register(require.resolve(TemplatePath), AppCommand)
+          YeomanRuntime.run(AppCommand)
+        }
+      )
+    }
+  )
 }
 else {
   let peakConfig = ParseConfig({
