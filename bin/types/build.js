@@ -67,7 +67,13 @@ module.exports = config => {
       Fs.writeFileSync(
         Path.join(config.webpackConfigProd.output.path, config.templateName),
         Minify(template, {
-          removeAttributeQuotes: true
+          collapseInlineTagWhitespace: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true,
+          minifyCSS: true,
+          minifyJS: true,
+          minifyURLs: true,
+          preserveLineBreaks: true
         })
       )
       
