@@ -3,7 +3,7 @@ const Express = require('express')
 const WebpackDevMiddleware = require('webpack-dev-middleware')
 const WebpackHotMiddleware = require('webpack-hot-middleware')
 
-const { ResolveBin, GetRandomPort, GetIp } = require('../lib/util')
+const { ResolveBin, ResolveRoot, GetRandomPort, GetIp } = require('../lib/util')
 
 module.exports = config => {
   const App = new Express()
@@ -29,6 +29,7 @@ module.exports = config => {
 
   GetRandomPort(port => {
     App
+    .use(config.publicPath, Express.static(ResolveRoot(config.publicPath)))
     .use((req, res, next) => {
       let url = req.url.slice(1)
 

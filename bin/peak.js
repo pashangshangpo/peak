@@ -32,6 +32,7 @@ let peakConfig = ParseConfig({
   ...require(ResolveRoot('peak.config')),
   type: Cli.type,
   env: Cli.env,
+  publicPath: '/public',
   injectScript: `
     <script>
       window.Peak = ${JSON.stringify({
