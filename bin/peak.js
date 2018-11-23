@@ -29,6 +29,15 @@ const ParseConfig = config => {
   }
 }
 
+const DownCommonCode = commonCode => {
+  for (let gitPath of commonCode) {
+    if (Shell.exec(`npm install ${gitPath} --save-dev`).code !== 0) {
+      Shell.echo(`Down ${gitPath} error!`)
+      Shell.exit(1)
+    }
+  }
+}
+
 if (Cli.type == undefined) {
   const AppCommand = 'peak'
   const GenerateTemplate = `generator-${AppCommand}`
@@ -59,24 +68,27 @@ if (Cli.type == undefined) {
 }
 else {
   let peakConfig = ParseConfig({
-    ...require(ResolveRoot('peak.config')),
-    type: Cli.type,
-    env: Cli.env,
     publicPath: '/public',
+    commonCode: [],
     injectScript: `
       <script>
         window.Peak = ${JSON.stringify({
           env: Cli.env
         })};
       </script>
-    `
+    `,
+    ...require(ResolveRoot('peak.config')),
+    type: Cli.type,
+    env: Cli.env
   })
   
   const Types = {
     server(config) {
+      DownCommonCode(config.commonCode)
       Server(config)
     },
     build(config) {
+      DownCommonCode(config.commonCode)
       Build(config)
     }
   }
