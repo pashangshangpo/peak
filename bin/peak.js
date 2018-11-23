@@ -20,7 +20,6 @@ Cli
 const ParseConfig = config => {
   let templatePath = ResolveRoot(config.template)
   
-
   return {
     ...config,
     webpackConfigDev: require(ResolveRoot(config.webpackConfigDev)),
