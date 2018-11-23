@@ -29,15 +29,6 @@ const ParseConfig = config => {
   }
 }
 
-const DownCommonCode = commonCode => {
-  for (let gitPath of commonCode) {
-    if (Shell.exec(`npm install ${gitPath} --save-dev`).code !== 0) {
-      Shell.echo(`Down ${gitPath} error!`)
-      Shell.exit(1)
-    }
-  }
-}
-
 if (Cli.type == undefined) {
   const AppCommand = 'peak'
   const GenerateTemplate = `generator-${AppCommand}`
@@ -84,11 +75,9 @@ else {
   
   const Types = {
     server(config) {
-      DownCommonCode(config.commonCode)
       Server(config)
     },
     build(config) {
-      DownCommonCode(config.commonCode)
       Build(config)
     }
   }
