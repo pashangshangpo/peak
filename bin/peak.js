@@ -29,6 +29,35 @@ const ParseConfig = config => {
   }
 }
 
+const ifThereIsPath = path =>{
+  try {
+    Fs.readdirSync(path)
+
+    return true
+  }
+  catch (err) {
+    return false
+  }
+}
+
+const DownCommonCode = commonCode => {
+  for (let gitPath of commonCode) {
+    let gitPathName = ResolveRoot(`node_modules/${Path.basename(gitPath).replace('.git', '')}`)
+
+    if (ifThereIsPath(gitPathName)) {
+      Shell.rm('-rf', gitPathName)
+    }
+
+    if (Shell.exec(`git clone ${gitPath} ${gitPathName}`, {silent: true}).code !== 0) {
+      Shell.echo(`Down ${gitPath} error!`)
+      Shell.exit(1)
+    }
+    else {
+      Shell.exec(`cd ${gitPathName} && npm install`, {silent: true})
+    }
+  }
+}
+
 if (Cli.type == undefined) {
   const AppCommand = 'peak'
   const GenerateTemplate = `generator-${AppCommand}`
@@ -75,9 +104,11 @@ else {
   
   const Types = {
     server(config) {
+      DownCommonCode(config.commonCode)
       Server(config)
     },
     build(config) {
+      DownCommonCode(config.commonCode)
       Build(config)
     }
   }
