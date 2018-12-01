@@ -25,6 +25,7 @@ const ParseConfig = config => {
     webpackConfigDev: require(ResolveRoot(config.webpackConfigDev)),
     webpackConfigProd: require(ResolveRoot(config.webpackConfigProd)),
     template: Fs.readFileSync(templatePath).toString(),
+    templatePath: templatePath,
     templateName: Path.basename(templatePath)
   }
 }
