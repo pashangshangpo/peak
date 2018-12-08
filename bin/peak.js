@@ -59,11 +59,17 @@ const DownCommonCode = commonCode => {
       Shell.rm('-rf', gitPathName)
     }
 
-    if (Shell.exec(`git clone ${gitPath} ${gitPathName}`, {silent: true}).code !== 0) {
+    let gitCloneCommon = `git clone ${gitPath} ${gitPathName}`
+
+    console.log(gitCloneCommon)
+
+    if (Shell.exec(gitCloneCommon, {silent: true}).code !== 0) {
       Shell.echo(`Down ${gitPath} error!`)
       Shell.exit(1)
     }
     else {
+      console.log(`npm install ${gitPathName}`)
+      
       Shell.exec(`cd ${gitPathName} && npm install`, {silent: true})
     }
   }
