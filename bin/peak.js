@@ -36,6 +36,7 @@ const ParseConfig = config => {
     webpackConfigDev: webpackConfigDev,
     webpackConfigProd: webpackConfigProd,
     template: Fs.readFileSync(templatePath).toString(),
+    templatePath: templatePath,
     templateName: Path.basename(templatePath)
   }
 }
