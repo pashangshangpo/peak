@@ -101,13 +101,6 @@ else {
   let peakConfig = ParseConfig({
     publicPath: '/public',
     commonCode: [],
-    injectScript: `
-      <script>
-        window.Peak = ${JSON.stringify({
-          env: Cli.env
-        })};
-      </script>
-    `,
     ...require(ResolveRoot('peak.config')),
     type: Cli.type,
     env: Cli.env

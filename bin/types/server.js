@@ -44,7 +44,6 @@ module.exports = config => {
         template = template.replace(
           '<!-- inject script -->',
           `
-            ${config.injectScript}
             <script src="/${entryKeys[0]}.js"></script>
           `
         )
