@@ -5,6 +5,7 @@ const Fs = require('fs')
 const Path = require('path')
 const Shell = require('shelljs')
 const Yeoman = require('yeoman-environment')
+const Webpack = require('webpack')
 
 const Server = require('./types/server')
 const Build = require('./types/build')
@@ -19,13 +20,22 @@ Cli
 
 const ParseConfig = config => {
   let templatePath = ResolveRoot(config.template)
+  let webpackConfigDev = require(ResolveRoot(config.webpackConfigDev))
+  let webpackConfigProd = require(ResolveRoot(config.webpackConfigProd))
+  let inject = new Webpack.DefinePlugin({
+    Peak: {
+      env: JSON.stringify(Cli.env)
+    }
+  })
+
+  webpackConfigDev.plugins.unshift(inject)
+  webpackConfigProd.plugins.unshift(inject)
   
   return {
     ...config,
-    webpackConfigDev: require(ResolveRoot(config.webpackConfigDev)),
-    webpackConfigProd: require(ResolveRoot(config.webpackConfigProd)),
+    webpackConfigDev: webpackConfigDev,
+    webpackConfigProd: webpackConfigProd,
     template: Fs.readFileSync(templatePath).toString(),
-    templatePath: templatePath,
     templateName: Path.basename(templatePath)
   }
 }
