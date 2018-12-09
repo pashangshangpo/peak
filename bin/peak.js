@@ -53,25 +53,35 @@ const ifThereIsPath = path =>{
 }
 
 const DownCommonCode = commonCode => {
+  let all = []
+
   for (let gitPath of commonCode) {
-    let gitPathName = ResolveRoot(`node_modules/${Path.basename(gitPath).replace('.git', '')}`)
+    all.push(new Promise(resolve => {
+      let gitPathName = ResolveRoot(`node_modules/${Path.basename(gitPath).replace('.git', '')}`)
 
-    if (ifThereIsPath(gitPathName)) {
-      Shell.rm('-rf', gitPathName)
-    }
+      if (ifThereIsPath(gitPathName)) {
+        Shell.rm('-rf', gitPathName)
+      }
 
-    console.log(`git clone ${gitPath}`)
+      console.log(`git clone ${gitPath}`)
 
-    if (Shell.exec(`git clone ${gitPath} ${gitPathName}`, {silent: true}).code !== 0) {
-      Shell.echo(`Down ${gitPath} error!`)
-      Shell.exit(1)
-    }
-    else {
-      console.log(`npm install ${gitPathName}`)
-
-      Shell.exec(`cd ${gitPathName} && npm install`, {silent: true})
-    }
+      Shell.exec(`git clone ${gitPath} ${gitPathName}`, {silent: true}, code => {
+        if (code !== 0) {
+          Shell.echo(`Down ${gitPath} error!`)
+          Shell.exit(1)
+        }
+        else {
+          console.log(`npm install ${gitPathName}`)
+  
+          Shell.exec(`cd ${gitPathName} && npm install`, {silent: true}, () => {
+            resolve()
+          })
+        }
+      })
+    }))
   }
+
+  return Promise.all(all)
 }
 
 if (Cli.type == undefined) {
@@ -113,12 +123,14 @@ else {
   
   const Types = {
     server(config) {
-      DownCommonCode(config.commonCode)
-      Server(config)
+      DownCommonCode(config.commonCode).then(() => {
+        Server(config)
+      })
     },
     build(config) {
-      DownCommonCode(config.commonCode)
-      Build(config)
+      DownCommonCode(config.commonCode).then(() => {
+        Build(config)
+      })
     }
   }
   
