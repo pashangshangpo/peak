@@ -124,11 +124,15 @@ else {
   const Types = {
     server(config) {
       DownCommonCode(config.commonCode).then(() => {
+        console.log('公共代码下载完成')
+
         Server(config)
       })
     },
     build(config) {
       DownCommonCode(config.commonCode).then(() => {
+        console.log('公共代码下载完成')
+        
         Build(config)
       })
     }
