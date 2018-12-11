@@ -11,7 +11,10 @@ module.exports = config => {
       console.log(stats.toString({
         all: false,
         assets: true,
-        colors: true
+        colors: true,
+        errors: true,
+        errorDetails: true,
+        warnings: true,
       }))
 
       console.log('编译完成')
