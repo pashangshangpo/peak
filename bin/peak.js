@@ -6,6 +6,7 @@ const Path = require('path')
 const Shell = require('shelljs')
 const Yeoman = require('yeoman-environment')
 const Webpack = require('webpack')
+const { Git, CheckYarnInstall, Exec } = require('shell-tool')
 
 const Server = require('./types/server')
 const Build = require('./types/build')
@@ -41,43 +42,32 @@ const ParseConfig = config => {
   }
 }
 
-const ifThereIsPath = path =>{
-  try {
-    Fs.readdirSync(path)
-
-    return true
-  }
-  catch (err) {
-    return false
-  }
-}
-
 const DownCommonCode = commonCode => {
   let all = []
+  let checkYarn = await CheckYarnInstall()
+  let install = checkYarn ? 'yarn' : 'npm'
 
   for (let gitPath of commonCode) {
     all.push(new Promise(resolve => {
-      let gitPathName = ResolveRoot(`node_modules/${Path.basename(gitPath).replace('.git', '')}`)
+      Git
+        .Clone(gitPath, ResolveRoot('src/node_modules'))
+        .then(res => {
+          if (res.code === 0) {
+            return res.targetPath
+          }
+          else {
+            console.error(res.error)
 
-      if (ifThereIsPath(gitPathName)) {
-        Shell.rm('-rf', gitPathName)
-      }
-
-      console.log(`git clone ${gitPath}`)
-
-      Shell.exec(`git clone ${gitPath} ${gitPathName}`, {silent: true}, code => {
-        if (code !== 0) {
-          Shell.echo(`Down ${gitPath} error!`)
-          Shell.exit(1)
-        }
-        else {
-          console.log(`npm install ${gitPathName}`)
-  
-          Shell.exec(`cd ${gitPathName} && npm install`, {silent: true}, () => {
+            process.exit(1)
+          }
+        })
+        .then(targetPath => {
+          console.log(`install ${targetPath}`)
+          
+          Exec(`cd ${targetPath} && ${install}`).then(() => {
             resolve()
           })
-        }
-      })
+        })
     }))
   }
 
