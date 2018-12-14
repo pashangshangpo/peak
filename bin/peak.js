@@ -4,12 +4,9 @@ const Cli = require('commander')
 const Fs = require('fs')
 const Path = require('path')
 const Shell = require('shelljs')
-const Yeoman = require('yeoman-environment')
 const Webpack = require('webpack')
 const { Git, CheckYarnInstall, Exec } = require('shell-tool')
 
-const Server = require('./types/server')
-const Build = require('./types/build')
 const { ResolveRoot } = require('./lib/util')
 
 Cli
@@ -75,6 +72,8 @@ const DownCommonCode = commonCode => {
 }
 
 if (Cli.type == undefined) {
+  const Yeoman = require('yeoman-environment')
+
   const AppCommand = 'peak'
   const GenerateTemplate = `generator-${AppCommand}`
   const YeomanRuntime = Yeoman.createEnv()
@@ -114,6 +113,8 @@ else {
   const Types = {
     server(config) {
       DownCommonCode(config.commonCode).then(() => {
+        const Server = require('./types/server')
+
         console.log('公共代码下载完成')
 
         Server(config)
@@ -121,6 +122,8 @@ else {
     },
     build(config) {
       DownCommonCode(config.commonCode).then(() => {
+        const Build = require('./types/build')
+        
         console.log('公共代码下载完成')
         
         Build(config)
