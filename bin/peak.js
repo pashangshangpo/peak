@@ -3,9 +3,8 @@
 const Cli = require('commander')
 const Fs = require('fs')
 const Path = require('path')
-const Shell = require('shelljs')
 const Webpack = require('webpack')
-const { Git, CheckYarnInstall, Exec } = require('shell-tool')
+const { Git, CheckYarnInstall, Shell, Exec } = require('shell-tool')
 
 const { ResolveRoot } = require('./lib/util')
 
@@ -123,7 +122,7 @@ else {
     build(config) {
       DownCommonCode(config.commonCode).then(() => {
         const Build = require('./types/build')
-        
+
         console.log('公共代码下载完成')
         
         Build(config)
