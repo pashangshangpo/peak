@@ -38,7 +38,7 @@ const ParseConfig = config => {
   }
 }
 
-const DownCommonCode = commonCode => {
+const DownCommonCode = async commonCode => {
   let all = []
   let checkYarn = await CheckYarnInstall()
   let install = checkYarn ? 'yarn' : 'npm'
