@@ -27,7 +27,7 @@ Promise.resolve().then(async () => {
     let webpackConfigProd = require(ResolveRoot(config.webpackConfigProd))
     let inject = new Webpack.DefinePlugin({
       Peak: JSON.stringify({
-        proxyUrl: `http://localhost:${Port}/proxy`,
+        proxyUrl: `http://localhost:${Port}/proxy/`,
         env: Cli.env
       })
     })
