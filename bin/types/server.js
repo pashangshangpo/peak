@@ -1,12 +1,14 @@
 const Fs = require('fs')
+const Url = require('url')
 const Webpack = require('webpack')
 const Express = require('express')
+const Proxy = require('express-http-proxy')
 const WebpackDevMiddleware = require('webpack-dev-middleware')
 const WebpackHotMiddleware = require('webpack-hot-middleware')
 
-const { ResolveBin, ResolveRoot, GetRandomPort, GetIp } = require('../lib/util')
+const { ResolveBin, ResolveRoot, GetIp } = require('../lib/util')
 
-module.exports = config => {
+module.exports = (config, port) => {
   const App = new Express()
 
   let entryKeys = Object.keys(config.webpackConfigDev.entry)
@@ -28,8 +30,34 @@ module.exports = config => {
     log: false
   })
 
-  GetRandomPort(port => {
-    App
+  App.all('*', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization, Accept, X-Requested-With')
+    res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
+    
+    if(req.method === 'OPTIONS') {
+      res.sendStatus(200)
+    }
+    else {
+      next()
+    }
+  })
+
+  App
+    .use('/proxy', Proxy(
+      req => {
+        curentUrl = Url.parse(decodeURIComponent(req.url.slice(1)))
+    
+        let { protocol, host } = curentUrl
+    
+        return `${protocol}//${host}`
+      },
+      {
+        proxyReqPathResolver: () => {
+          return curentUrl.path
+        }
+      }
+    ))
     .use(config.publicPath, Express.static(ResolveRoot(config.publicPath)))
     .use((req, res, next) => {
       let url = req.url.slice(1)
@@ -64,5 +92,4 @@ module.exports = config => {
         console.log(`open: http://${GetIp()}:${port}`)
       }
     })
-  })
 }
