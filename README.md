@@ -47,3 +47,9 @@ module.exports = {
 ```
 window.Peak.env
 ```
+
+## 代理
+
+```
+fetch(`${window.Peak.proxyUrl}http://www.baidu.com`)
+```
