@@ -55,6 +55,19 @@ module.exports = (config, port) => {
       {
         proxyReqPathResolver: () => {
           return curentUrl.path
+        },
+        userResHeaderDecorator: (headers, userReq, userRes) => {
+          let location = headers.location
+
+          if (userRes.statusCode === 405) {
+            userRes.status(200)
+          }
+
+          if (location) {
+            headers.location = `http://localhost:${port}/proxy/${location}`
+          }
+          
+          return headers
         }
       }
     ))
