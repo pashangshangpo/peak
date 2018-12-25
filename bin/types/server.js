@@ -6,7 +6,7 @@ const Proxy = require('express-http-proxy')
 const WebpackDevMiddleware = require('webpack-dev-middleware')
 const WebpackHotMiddleware = require('webpack-hot-middleware')
 
-const { ResolveBin, ResolveRoot, GetIp } = require('../lib/util')
+const { ResolveBin, ResolveRoot } = require('../lib/util')
 
 module.exports = (config, port) => {
   const App = new Express()
@@ -64,7 +64,7 @@ module.exports = (config, port) => {
           }
 
           if (location) {
-            headers.location = `http://localhost:${port}/proxy/${location}`
+            headers.location = `http://${config.ip}:${port}/proxy/${location}`
           }
           
           return headers
@@ -102,7 +102,8 @@ module.exports = (config, port) => {
         throw new Error(err)
       }
       else {
-        console.log(`open: http://${GetIp()}:${port}`)
+        console.log(`open: http://localhost:${port}`)
+        console.log(`open: http://${config.ip}:${port}`)
       }
     })
 }

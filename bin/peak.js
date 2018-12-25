@@ -7,12 +7,14 @@ Promise.resolve().then(async () => {
   const Webpack = require('webpack')
   const { Git, CheckYarnInstall, Shell, Exec } = require('shell-tool')
 
-  const { ResolveRoot, GetRandomPort } = require('./lib/util')
+  const { ResolveRoot, GetRandomPort, GetIp } = require('./lib/util')
   const Port = await new Promise(resolve => {
     GetRandomPort(port => {
       resolve(port)
     })
   })
+  
+  const Ip = GetIp()
 
   Cli
     .version('0.0.1')
@@ -27,7 +29,8 @@ Promise.resolve().then(async () => {
     let webpackConfigProd = require(ResolveRoot(config.webpackConfigProd))
     let inject = new Webpack.DefinePlugin({
       Peak: JSON.stringify({
-        proxyUrl: `http://localhost:${Port}/proxy/`,
+        ip: Ip,
+        proxyUrl: `http://${Ip}:${Port}/proxy/`,
         env: Cli.env
       })
     })
@@ -41,7 +44,8 @@ Promise.resolve().then(async () => {
       webpackConfigProd: webpackConfigProd,
       template: Fs.readFileSync(templatePath).toString(),
       templatePath: templatePath,
-      templateName: Path.basename(templatePath)
+      templateName: Path.basename(templatePath),
+      ip: Ip
     }
   }
 
