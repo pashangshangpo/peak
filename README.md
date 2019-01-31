@@ -33,8 +33,6 @@ module.exports = {
   template: 'index.html',
   // 静态资源目录路径
   publicPath: '/public',
-  // git 公共代码库
-  commonCode: [],
 }
 ```
 

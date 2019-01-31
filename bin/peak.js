@@ -5,7 +5,7 @@ Promise.resolve().then(async () => {
   const Fs = require('fs')
   const Path = require('path')
   const Webpack = require('webpack')
-  const { Git, CheckYarnInstall, Shell, Exec } = require('shell-tool')
+  const { Shell } = require('shell-tool')
 
   const { ResolveRoot, GetRandomPort, GetIp } = require('./lib/util')
   const Port = await new Promise(resolve => {
@@ -49,38 +49,6 @@ Promise.resolve().then(async () => {
     }
   }
 
-  const DownCommonCode = async commonCode => {
-    let all = []
-    let checkYarn = await CheckYarnInstall()
-    let install = checkYarn ? 'yarn' : 'npm'
-
-    for (let gitPath of commonCode) {
-      all.push(new Promise(resolve => {
-        Git
-          .Clone(gitPath, ResolveRoot('src/node_modules'))
-          .then(res => {
-            if (res.code === 0) {
-              return res.targetPath
-            }
-            else {
-              console.error(res.error)
-
-              process.exit(1)
-            }
-          })
-          .then(targetPath => {
-            console.log(`install ${targetPath}`)
-            
-            Exec(`cd ${targetPath} && ${install}`).then(() => {
-              resolve()
-            })
-          })
-      }))
-    }
-
-    return Promise.all(all)
-  }
-
   if (Cli.type == undefined) {
     const Yeoman = require('yeoman-environment')
 
@@ -114,7 +82,6 @@ Promise.resolve().then(async () => {
   else {
     let peakConfig = ParseConfig({
       publicPath: '/public',
-      commonCode: [],
       ...require(ResolveRoot('peak.config')),
       type: Cli.type,
       env: Cli.env
@@ -122,22 +89,10 @@ Promise.resolve().then(async () => {
     
     const Types = {
       server(config) {
-        DownCommonCode(config.commonCode).then(() => {
-          const Server = require('./types/server')
-
-          console.log('公共代码下载完成')
-
-          Server(config, Port)
-        })
+        require('./types/server')(config, Port)
       },
       build(config) {
-        DownCommonCode(config.commonCode).then(() => {
-          const Build = require('./types/build')
-
-          console.log('公共代码下载完成')
-          
-          Build(config)
-        })
+        require('./types/build')(config)
       }
     }
     
