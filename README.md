@@ -8,6 +8,8 @@
 peak
 ```
 
+根据提示进行下一步，直到完成
+
 ## 开发
 
 ```
@@ -36,11 +38,9 @@ module.exports = {
 }
 ```
 
-具体配置会根据选择的模板而定。
-
 ## 环境变量
 
-会在 window 上注入以下环境变量，具体环境变量是通过 package.json 中获取的，可自行修改
+会在 window 上注入以下环境变量，环境变量可以在 package.json 中的 script 上设置跟修改
 
 ```
 window.Peak.env
@@ -49,5 +49,5 @@ window.Peak.env
 ## 代理
 
 ```
-fetch(`${window.Peak.proxyUrl}http://www.baidu.com`)
+fetch(`${window.Peak.proxyUrl}http://www.taobao.com`)
 ```
