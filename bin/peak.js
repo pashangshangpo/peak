@@ -5,7 +5,7 @@ Promise.resolve().then(async () => {
   const Fs = require('fs')
   const Path = require('path')
   const Webpack = require('webpack')
-  const { Shell } = require('shell-tool')
+  const { Shell } = require('@xiaozhihua/shell-tool')
 
   const { ResolveRoot, GetRandomPort, GetIp } = require('./lib/util')
   const Port = await new Promise(resolve => {
