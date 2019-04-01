@@ -1,6 +1,6 @@
 {
-  "name": "peak",
-  "version": "0.0.1",
+  "name": "fe-peak",
+  "version": "1.0.0",
   "description": "前端工程化解决方案",
   "scripts": {},
   "bin": {
