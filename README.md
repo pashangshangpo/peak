@@ -2,34 +2,22 @@
 
 前端工程化解决方案
 
-## 创建项目
+## 入门指南
+
+1. 安装
 
 ```
-fe-peak
+npm install fe-peak
 ```
 
-根据提示进行下一步，直到完成
-
-## 开发
-
-```
-yarn start
-```
-
-## 编译
-
-```
-yarn build
-```
-
-## 自定义配置
+2. 配置相应路径
 
 peak.config.js
 ```
 module.exports = {
-  // 开发环境配置
+  // 开发环境配置，导出一份 webpack 配置
   webpackConfigDev: 'config/webpack.config.dev.js',
-  // 生产环境配置
+  // 生产环境配置，导出一份 webpack 配置
   webpackConfigProd: 'config/webpack.config.prod.js',
   // 模板文件路径
   template: 'index.html',
@@ -38,13 +26,33 @@ module.exports = {
 }
 ```
 
-## 环境变量
+3. 配置 scripts
 
-会在 window 上注入以下环境变量，环境变量可以在 package.json 中的 script 上设置跟修改
+![](https://image-static.segmentfault.com/166/992/166992228-5cac6048ac4c3_articlex)
+
+- env: 环境变量，最终会被注入到 window.Peak.env 变量中
+- type: [server, build] 开启本地开发服务或进行项目编译
+- port: 固定端口号，默认随机
+
+4. 本地开发
 
 ```
-window.Peak.env
+yarn start
 ```
+
+5. 生产编译
+
+```
+yarn build
+```
+
+## 创建项目
+
+```
+fe-peak
+```
+
+根据提示进行下一步，直到完成
 
 ## 代理
 
