@@ -1,6 +1,9 @@
 # 简介
 
-前端工程化解决方案
+[![npm版本](https://img.shields.io/npm/v/fe-peak.svg)](https://www.npmjs.com/package/fe-peak)
+[![下载量](https://img.shields.io/npm/dt/fe-peak.svg)](http://npm-stat.com/charts.html?package=fe-peak)
+
+> 前端工程化解决方案
 
 ## 特点
 
