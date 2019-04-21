@@ -2,13 +2,13 @@
 
 前端工程化解决方案
 
-## 主要功能
+## 特点
 
+- 没有繁琐的配置，直接上手进行项目开发
 - 提供多套不同类型的项目模板
-- 可自定义模板项目
-- 支持开发服务
 - 支持任意设置环境变量
-- 支持开发环境代理
+- 支持开发环境设置代理
+- 支持生产环境将资源文件上传到CDN
 
 ## 入门指南
 
@@ -31,6 +31,23 @@ module.exports = {
   template: 'index.html',
   // 静态资源目录路径
   publicPath: '/public',
+  // 生产环境将文件上传到CDN
+  uploadFileToCDN: {
+    // CDN服务商，目前只支持七牛云
+    cdn: 'qiniu',
+    config: {
+      // CDN地址
+      publicPath: 'http://xx.bkt.clouddn.com',
+      // 密钥管理 > AK
+      accessKey: 'aaaUXmJLTtjhJCGyvG6peIQvqDR',
+      // 密钥管理 > SK
+      secretKey: 'ccc3iBxx97zGFwKU-7o9f',
+      // 对象存储空间名
+      bucket: 'web-cdn',
+      // 需要排除上传的文件
+      exclude: /index\.html$/,
+    }
+  },
 }
 ```
 
