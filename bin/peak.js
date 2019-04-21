@@ -8,7 +8,6 @@ Promise.resolve().then(async () => {
   const { Shell } = require('@xiaozhihua/shell-tool')
 
   const { ResolveRoot, GetRandomPort, GetIp } = require('./lib/util')
-  const UserConfig = require(ResolveRoot('peak.config'))
 
   Cli
     .version('0.0.1')
@@ -16,9 +15,11 @@ Promise.resolve().then(async () => {
     .option('-t, --type [type]', '执行的命令类型，示例：server, build')
     .option('-e, --env [env]', '当前环境，会被注入到 process.env 中')
     .option('-p, --port [port]', '固定端口，默认随机')
+    .option('-c, --config [config]', '配置文件路径，默认根目录 peak.config.js')
     .parse(process.argv)
 
   const Ip = GetIp()
+  const UserConfig = require(ResolveRoot(Cli.config || 'peak.config'))
   const Port = Cli.port || await new Promise(resolve => {
     GetRandomPort(port => {
       resolve(port)
