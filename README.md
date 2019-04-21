@@ -62,6 +62,10 @@ fe-peak
 
 根据提示进行下一步，直到完成
 
+## 命令行工具
+
+![](https://image-static.segmentfault.com/362/816/3628166686-5cbc32c8d777f_articlex)
+
 ## 代理
 
 ```
