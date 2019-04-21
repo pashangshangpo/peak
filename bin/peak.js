@@ -8,6 +8,7 @@ Promise.resolve().then(async () => {
   const { Shell } = require('@xiaozhihua/shell-tool')
 
   const { ResolveRoot, GetRandomPort, GetIp } = require('./lib/util')
+  const UserConfig = require(ResolveRoot('peak.config'))
 
   Cli
     .version('0.0.1')
@@ -83,17 +84,20 @@ Promise.resolve().then(async () => {
   else {
     let peakConfig = ParseConfig({
       publicPath: '/public',
-      ...require(ResolveRoot('peak.config')),
+      ...UserConfig,
       type: Cli.type,
       env: Cli.env
     })
     
     const Types = {
       server(config) {
-        require('./types/server')(config, Port)
+        require('./types/server')(config, {
+          ...UserConfig,
+          port: Port,
+        })
       },
       build(config) {
-        require('./types/build')(config)
+        require('./types/build')(config, UserConfig)
       }
     }
     

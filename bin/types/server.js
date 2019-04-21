@@ -8,7 +8,8 @@ const WebpackHotMiddleware = require('webpack-hot-middleware')
 
 const { ResolveBin, ResolveRoot } = require('../lib/util')
 
-module.exports = (config, port) => {
+module.exports = (config, option) => {
+  const Port = option.port
   const App = new Express()
 
   let entryKeys = Object.keys(config.webpackConfigDev.entry)
@@ -64,7 +65,7 @@ module.exports = (config, port) => {
           }
 
           if (location) {
-            headers.location = `http://${config.ip}:${port}/proxy/${location}`
+            headers.location = `http://${config.ip}:${Port}/proxy/${location}`
           }
           
           return headers
@@ -97,13 +98,13 @@ module.exports = (config, port) => {
     })
     .use(DevMiddleware)
     .use(HotMiddleware)
-    .listen(port, err => {
+    .listen(Port, err => {
       if (err) {
         throw new Error(err)
       }
       else {
-        console.log(`open: http://localhost:${port}`)
-        console.log(`open: http://${config.ip}:${port}`)
+        console.log(`open: http://localhost:${Port}`)
+        console.log(`open: http://${config.ip}:${Port}`)
       }
     })
 }
