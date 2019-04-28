@@ -19,7 +19,6 @@ Promise.resolve().then(async () => {
     .parse(process.argv)
 
   const Ip = GetIp()
-  const UserConfig = require(ResolveRoot(Cli.config || 'peak.config'))
   const Port = Cli.port || await new Promise(resolve => {
     GetRandomPort(port => {
       resolve(port)
@@ -83,6 +82,8 @@ Promise.resolve().then(async () => {
     )
   }
   else {
+    const UserConfig = require(ResolveRoot(Cli.config || 'peak.config'))
+
     let peakConfig = ParseConfig({
       publicPath: '/public',
       ...UserConfig,
